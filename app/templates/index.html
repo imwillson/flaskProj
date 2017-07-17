@@ -1,12 +1,5 @@
-<html>
-  <head>
-  	{% if title %}
-    <title>{{ title }} - microblog</title>
-    {% else %}
-    <title>welcome to microblog</title>
-    {% endif %}
-  </head>
-  <body>
+{% extends "base.html" %}
+{% block content %}
       <h1>Hello, {{ user.nickname }}!</h1>
 
       <!--loop for posts -->
@@ -14,5 +7,5 @@
       <!-- create new div for every post -->
       <div><p>{{ posts.author.nickname }} says: <b>{{ posts.body }}</b></p></div>
       {% endfor %}
-  </body>
-</html>
+{% endblock %}
+
