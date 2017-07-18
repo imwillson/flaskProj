@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, flash, redirect
 from app import app 
 from .forms import LoginForm # period is file structure
 
@@ -30,9 +30,20 @@ def index():
 def login():
 	# LoginForm Class / how it renders
 	form = LoginForm()
+
+	#validate_on_submit does all the validation
+	if form.validate_on_submit():
+
+		# flash shows a message on the next page
+		# %s is for string 
+		flash('Login requested for OpenID="%s", remember_me=%s' %
+			(form.openid.data, str(form.remember_me.data)))
+		return redirect('/index')
+
 	return render_template('login.html', 
 							title='Sign In',
-							form=form) 
+							form=form,
+							providers=app.config['OPENID_PROVIDERS']) 
 							# we pass form (the data) \
 							# into this template 
 

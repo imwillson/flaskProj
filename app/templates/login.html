@@ -3,14 +3,47 @@
 <!-- insert the content after template -->
 {% block content%}
 
+<script type="text/javascript">
+	// function reviews the open id and provider
+	function set_openid(openid, pr) {
+		// u 
+		u = openid.search('<username>')
+		// open id requires username
+		if (u != -1) {
+			// Enter your "google" username
+			// takes the user name and splices into next openid
+			user = prompt("Enter your " + pr + ' username:')
+			
+			// takes out the <username> and adds 
+			openid = openid.substr(0, u) + user
+		}
+
+		// puts open id into the "login" 
+		form = document.forms['login'];
+		// expands the openid space to the new value
+		form.elements['openid'].value = openid			
+	}
+
+</script>
+
+
 	<h1>Sign In</h1>
   	<form action="" method="post" name="login">
       <!-- place holder for CSRF field-->
       <!-- Cross Site Request forgery = security-->
       {{ form.hidden_tag() }}
       <p>
-          Please enter your OpenID:<br>
+          Please enter your OpenID, or select one of the providers below:<br>
           {{ form.openid(size=80) }}<br>
+
+          <!-- WTf-flask automatically does errors -->
+          <!-- inserts below form objet -->
+          {% for error in form.openid.errors %}
+          	<span style="color: red;">[{{ error }}]</span>
+          {% endfor %}<br>
+          |{% for pr in providers %}
+          	<a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');"> {{ pr.name }} </a> |
+          {% endfor %}
       </p>
       <p>{{ form.remember_me }} Remember Me</p>
       <p><input type="submit" value="Sign In"></p>
