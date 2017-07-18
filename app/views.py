@@ -1,5 +1,6 @@
 from flask import render_template
 from app import app 
+from .forms import LoginForm # period is file structure
 
 # view function wrapped to this route 
 @app.route('/')
@@ -23,5 +24,16 @@ def index():
 							posts=posts) 
 	# these are positional arguments, passed in from 
 	# the funciont
+
+# routes default have get requestss
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	# LoginForm Class / how it renders
+	form = LoginForm()
+	return render_template('login.html', 
+							title='Sign In',
+							form=form) 
+							# we pass form (the data) \
+							# into this template 
 
 
