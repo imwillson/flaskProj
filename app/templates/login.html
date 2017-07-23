@@ -5,6 +5,7 @@
 
 <script type="text/javascript">
 	// function reviews the open id and provider
+	// strips the provider of placeholder if there is one
 	function set_openid(openid, pr) {
 		// u 
 		u = openid.search('<username>')
@@ -41,6 +42,9 @@
           {% for error in form.openid.errors %}
           	<span style="color: red;">[{{ error }}]</span>
           {% endfor %}<br>
+
+          <!-- adds the providers in link for -->
+          <!-- reminder the placeholders are passed in from views -->
           |{% for pr in providers %}
           	<a href="javascript:set_openid('{{ pr.url }}', '{{ pr.name }}');"> {{ pr.name }} </a> |
           {% endfor %}
